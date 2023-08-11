@@ -1,66 +1,29 @@
 package com.khj.exam.demo.repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.stereotype.Component;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import com.khj.exam.demo.vo.Article;
 
-@Component
-public class ArticleRepository {
-	private int articleLastId;
-	private List<Article> articles;
+@Mapper
+public interface ArticleRepository {
+	// INSERT INTO aritcle SET regDate = NOW(), updateDate = NOW(), title = ?, `body`= ?;
 	
-	public ArticleRepository() {
-		articleLastId = 0;
-		articles = new ArrayList<>();
-	}
-	
-	public void makeTestData() {
-		for (int i = 1; i <= 10; i++) {
-			String title = "제목" + i;
-			String body = "내용" + i;
+	public Article writeArticle(String title, String body);
 
-			writeArticle(title, body);
-		}
-	}
+	// SELECT * FROM article ORDER BY id DESC;
+	public List<Article> getArticles();
 
-	public Article writeArticle(String title, String body) {
-		int id = articleLastId + 1;
+	// SELECT * FROM article WHERE id = ?
+	@Select("SELECT * FROM article WHERE id = #{id}")
+	public Article getArticle(@Param("id") int id);
 
-		Article article = new Article(id, title, body);
+	// DELETE * FROM article WHERE id = ?
+	public void deleteArticle(int id);
 
-		articles.add(article);
-		articleLastId = id;
-
-		return article;
-	}
-
-	public List<Article> getArticles() {
-		return articles;
-	}
-
-	public Article getArticle(int id) {
-		for (Article article : articles) {
-			if (article.getId() == id) {
-				return article;
-			}
-		}
-
-		return null;
-	}
-
-	public void deleteArticle(int id) {
-		Article article = getArticle(id);
-
-		articles.remove(article);
-	}
-
-	public void modifyArticle(int id, String title, String body) {
-		Article article = getArticle(id);
-
-		article.setTitle(title);
-		article.setBody(body);
-	}
+	// UPDATE article SET title = ?, `body` = ?, updateDate = NOW() WHERE id = ?;
+	public void modifyArticle(int id, String title, String body);
 }
