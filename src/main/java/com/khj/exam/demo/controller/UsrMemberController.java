@@ -71,7 +71,7 @@ public class UsrMemberController {
 		}
 		
 		if ( isLogined ) {
-			return ResultData.from("F-5", "이미 로그인되었습니다.");
+			return ResultData.from("F-5", "이미 로그인 상태입니다.");
 		}
 		
 		if ( Ut.empty(loginId) ) {
@@ -95,5 +95,23 @@ public class UsrMemberController {
 		httpSession.setAttribute("loginedMemberId", member.getId());
 		
 		return ResultData.from("S-1", Ut.f("%s님 환영합니다.", member.getNickname()));
+	}
+	
+	@RequestMapping("/usr/member/doLogout")
+	@ResponseBody
+	public ResultData<Member> doLogout(HttpSession httpSession){
+		boolean isLogined = false;
+		
+		if (httpSession.getAttribute("loginedMemberId") == null ) {
+			isLogined = true;
+		}
+		
+		if ( isLogined ) {
+			return ResultData.from("F-1", "이미 로그아웃 상태입니다.");
+		}
+		
+		httpSession.removeAttribute("loginedMemberId");
+		
+		return ResultData.from("S-1", "로그아웃 되었습니다.");
 	}
 }
