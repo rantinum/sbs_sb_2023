@@ -15,7 +15,7 @@ public class MemberService {
 		this.memberRepository = memberRepository;
 	}
 	
-	public ResultData join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
+	public ResultData<Integer> join(String loginId, String loginPw, String name, String nickname, String cellphoneNo, String email) {
 		Member oldMember = getMemberByLoginId(loginId);
 		
 		// 로그인아이디 중복체크
