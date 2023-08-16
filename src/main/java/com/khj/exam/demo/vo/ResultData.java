@@ -2,19 +2,19 @@ package com.khj.exam.demo.vo;
 
 import lombok.Getter;
 
-public class ResultData {
+public class ResultData<DT> {
 	@Getter
 	private String resultCode;
 	@Getter
 	private String msg;
 	@Getter
-	private Object data1;
+	private DT data1;
 
 	private ResultData() {
 
 	}
 
-	public static ResultData from(String reslutCode, String msg, Object data1) {
+	public static <DT> ResultData<DT> from(String reslutCode, String msg, DT data1) {
 		ResultData rd = new ResultData();
 		rd.resultCode = reslutCode;
 		rd.msg = msg;
@@ -35,8 +35,8 @@ public class ResultData {
 		return isSuccess() == false;
 	}
 
-	public static ResultData newData(ResultData joinRd, Object newData) {
-		return from(joinRd.getResultCode(), joinRd.getMsg(), newData);
+	public static <DT> ResultData<DT> newData(ResultData oldRd, DT newData) {
+		return from(oldRd.getResultCode(), oldRd.getMsg(), newData);
 	}
 
 }

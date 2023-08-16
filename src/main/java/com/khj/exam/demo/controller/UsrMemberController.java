@@ -48,13 +48,13 @@ public class UsrMemberController {
 		// s-1
 		// 회원가입 환영
 		// 7
-		ResultData joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
+		ResultData<Integer> joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNo, email);
 		
 		if ( joinRd.isFail() ) {
 			return joinRd;
 		}
 		
-		Member member = memberService.getMemberById((int) joinRd.getData1());
+		Member member = memberService.getMemberById(joinRd.getData1());
 		
 		return ResultData.newData(joinRd, member);
 	}
