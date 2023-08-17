@@ -11,4 +11,9 @@ public class UsrHomeController {
 	public String getString() {
 		return "메인 입니다";
 	}
+	
+	@RequestMapping("/")
+	public String showRoot() {
+		return "usr/home/main";
+	}
 }
