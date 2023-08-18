@@ -1,59 +1,48 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="pageTitle" value="게시물 상세" />
+<%@ include file="../common/head.jspf"%>
 
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>${pageTitle}</title>
-
-<!-- 제이쿼리 불러오기 -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-
-<!-- 테일윈드 불러오기 -->
-<!-- 노말라이즈, 라이브러리까지 한 번에 해결 -->
-<script src="https://unpkg.com/tailwindcss-jit-cdn"></script>
-
-<!-- 폰트어썸 불러오기 -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
-
-<!-- 사이트 공통 CSS -->
-<link rel="stylesheet" href="/resource/common.css" />
-
-<!-- 사이트 공통 JS -->
-<script src="/resource/common.js" defer="defer"></script>
-</head>
-
-<body>
-  <header class="flex container mx-auto">
-    <a href="/" class="flex h-20 items-center px-3 hover:underline">로고</a>
-
-    <div class="flex-grow"></div>
-
-    <ul class="flex">
-      <li>
-        <a href="/" class="h-full flex items-center px-3 hover:underline">
-          <span>홈</span>
-        </a>
-      </li>
-      <li>
-        <a href="/usr/article/list" class="h-full flex items-center px-3 hover:underline">
-          <span>리스트</span>
-        </a>
-      </li>
-      <li>
-        <a href="/usr/member/login" class="h-full flex items-center px-3 hover:underline">
-          <span>로그인</span>
-        </a>
-      </li>
-    </ul>
-  </header>
-  
-  <section class="mt-5">
-  	<div class="container mx-auto px-3">
-      <h1>${pageTitle} 페이지</h1>
+<section class="mt-5">
+  <div class="container mx-auto px-3">
+    <div class="table-box-type-1">
+      <table>
+      <colgroup>
+        <col width="200"/>
+      </colgroup>
+        <tbody>
+          <tr>
+            <th>번호</th>
+            <td>${article.id}</td>
+          </tr>
+          <tr>
+            <th>작성날짜</th>
+            <td>${article.regDate.substring(2, 16)}</td>
+          </tr>
+          <tr>
+            <th>수정날짜</th>
+            <td>${article.updateDate.substring(2, 16)}</td>
+          </tr>
+          <tr>
+            <th>작성자</th>
+            <td>${article.extra__writerName}</td>
+          </tr>
+          <tr>
+            <th>제목</th>
+            <td>${article.title}</td>
+          </tr>
+          <tr>
+            <th>내용</th>
+            <td>${article.body}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  </section>
+    
+    <div>
+      <button type="button" onclick="history.back();">뒤로가기</button>    
+    </div>
+  </div>
+</section>
 
-</body>
-</html>
+<%@ include file="../common/foot.jspf"%>

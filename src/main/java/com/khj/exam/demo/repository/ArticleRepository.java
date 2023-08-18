@@ -20,9 +20,18 @@ public interface ArticleRepository {
 			ON A.memberId = M.id
 			ORDER BY A.id DESC
 			""")
-	public List<Article> getArticles();
+	public List<Article> getForPrintArticles();
 
-	public Article getArticle(@Param("id") int id);
+	
+	@Select("""
+			SELECT A.*,
+			M.nickname AS extra__writerName
+			FROM article AS A
+			LEFT JOIN `member` AS M
+			ON A.memberId = M.id
+			WHERE A.id = #{id}
+			""")
+	public Article getForPrintArticle(@Param("id") int id);
 	
 	public void deleteArticle(@Param("id") int id);
 
