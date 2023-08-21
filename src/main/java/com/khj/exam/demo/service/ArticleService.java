@@ -86,4 +86,4 @@ public class ArticleService {
 		
 		return ResultData.from("S-1", "삭제가능합니다.");
 	}
-}
+}	
