@@ -49,6 +49,9 @@ public class ArticleService {
 		
 		ResultData actorCanDeleteRd = actorCanDelete(actorId, article);
 		article.setExta__actorCanDelete(actorCanDeleteRd.isSuccess());
+		
+		ResultData actorCanModifyRd = actorCanModify(actorId, article);
+		article.setExta__actorCanModify(actorCanModifyRd.isSuccess());
 	}
 
 	public void deleteArticle(int id) {
@@ -86,4 +89,4 @@ public class ArticleService {
 		
 		return ResultData.from("S-1", "삭제가능합니다.");
 	}
-}	
+}
