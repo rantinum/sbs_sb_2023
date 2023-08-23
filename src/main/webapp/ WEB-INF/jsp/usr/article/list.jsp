@@ -46,21 +46,21 @@
         <c:set var="endPage" value="${page + pageMenuArmLen <= pagesCount ? page + pageMenuArmLen : pagesCount}" />
 
         <c:if test="${startPage > 1}">
-          <a href="?page=1" class="btn btn-sm">1</a>
+          <a href="?boardId=${boardId}&page=1" class="btn btn-sm">1</a>
           <c:if test="${startPage > 2}">
             <a class="btn btn-sm btn-disabled">...</a>
           </c:if>
         </c:if>
 
         <c:forEach begin="${startPage}" end="${endPage}" var="i">
-          <a href="?page=${i}" class="btn btn-sm ${page == i ? 'btn-active' : '' }">${i}</a>
+          <a href="?boardId=${boardId}&page=${i}" class="btn btn-sm ${page == i ? 'btn-active' : '' }">${i}</a>
         </c:forEach>
 
         <c:if test="${endPage < pagesCount}">
           <c:if test="${endPage < pagesCount -1}">
             <a class="btn btn-sm btn-disabled">...</a>
           </c:if>
-          <a href="?page=${pagesCount}" class="btn btn-sm">${pagesCount}</a>
+          <a href="?boardId=${boardId}&page=${pagesCount}" class="btn btn-sm">${pagesCount}</a>
         </c:if>
       </div>
     </div>
