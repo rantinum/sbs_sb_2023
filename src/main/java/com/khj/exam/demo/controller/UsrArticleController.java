@@ -20,16 +20,19 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UsrArticleController {
-	@Autowired
 	private ArticleService articleService;
-	@Autowired
 	private BoardService boardService;
+	private Rq rq;
+	
+	public UsrArticleController(ArticleService articleService, BoardService boardService, Rq rq) {
+		this.articleService = articleService;
+		this.boardService = boardService;
+		this.rq = rq;
+	}
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
 	public String doWrite(HttpServletRequest req, String title, String body, String replaceUri) {
-		Rq rq = (Rq) req.getAttribute("rq");
-
 		if (Ut.empty(title)) {
 			return rq.jsHistoryBack("title(을)를 작성해주세요.");
 		}
@@ -57,8 +60,6 @@ public class UsrArticleController {
 	public String showList(HttpServletRequest req, Model model, int boardId) {
 		Board board = boardService.getBoardById(boardId);
 		
-		Rq rq = (Rq) req.getAttribute("rq");
-		
 		if ( board == null ) {
 			return rq.historyBackJsOnView(Ut.f("%d번 게시판은 존재하지 않습니다.", boardId));
 		}
@@ -75,8 +76,6 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/detail")
 	public String showDetail(HttpServletRequest req, Model model, int id) {
-		Rq rq = (Rq) req.getAttribute("rq");
-
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		model.addAttribute("article", article);
@@ -87,8 +86,6 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
 	public ResultData<Article> getArticle(HttpServletRequest req, int id) {
-		Rq rq = (Rq) req.getAttribute("rq");
-
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		if (article == null) {
@@ -101,8 +98,6 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
 	public String doDelete(HttpServletRequest req, int id) {
-		Rq rq = (Rq) req.getAttribute("rq");
-
 		if (rq.isLogined() == false) {
 			return rq.jsHistoryBack("로그인 후 이용해주세요.");
 		}
@@ -124,8 +119,6 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/modify")
 	public String showModify(HttpServletRequest req, Model model, int id) {
-		Rq rq = (Rq) req.getAttribute("rq");
-
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		if (article == null) {
@@ -146,8 +139,6 @@ public class UsrArticleController {
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
 	public String doModify(HttpServletRequest req, int id, String title, String body) {
-		Rq rq = (Rq) req.getAttribute("rq");
-
 		if (rq.isLogined() == false) {
 			return rq.jsHistoryBack("로그인 후 이용해주세요.");
 		}
