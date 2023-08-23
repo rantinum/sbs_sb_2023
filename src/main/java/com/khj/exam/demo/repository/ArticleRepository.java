@@ -43,4 +43,15 @@ public interface ArticleRepository {
 	public void modifyArticle(@Param("id")int id, @Param("title") String title, @Param("body") String body);
 
 	public int getLastInsertId();
+
+	@Select("""
+			<script>
+				SELECT COUNT(*) AS cnt
+				FROM article AS A
+				<if test="board != 0">
+					WHERE A.boardId = #{boardId}
+				</if>
+			</script>
+			""")
+	public int getArticlesCount(int boardId);
 }
