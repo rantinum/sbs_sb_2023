@@ -43,8 +43,8 @@
     </div>
     <div class="page-menu mt-5 flex justify-center">
       <div class = btn-group>
-           <c:forEach begin="1" end="10" var="i">
-          <a href="?page=${i}" class="btn btn-sm ${param.page == i ? 'btn-active' : '' }">${i}</a>
+           <c:forEach begin="1" end="${pagesCount}" var="i">
+          <a href="?page=${i}" class="btn btn-sm ${page == i ? 'btn-active' : '' }">${i}</a>
         </c:forEach>
       </div>
     
