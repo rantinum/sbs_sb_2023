@@ -2,7 +2,6 @@ package com.khj.exam.demo.controller;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,8 +14,6 @@ import com.khj.exam.demo.vo.Article;
 import com.khj.exam.demo.vo.Board;
 import com.khj.exam.demo.vo.ResultData;
 import com.khj.exam.demo.vo.Rq;
-
-import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UsrArticleController {
@@ -32,7 +29,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doWrite")
 	@ResponseBody
-	public String doWrite(HttpServletRequest req, String title, String body, String replaceUri) {
+	public String doWrite(int boardId, String title, String body, String replaceUri) {
 		if (Ut.empty(title)) {
 			return rq.jsHistoryBack("title(을)를 작성해주세요.");
 		}
@@ -40,7 +37,7 @@ public class UsrArticleController {
 			return rq.jsHistoryBack("body(을)를 작성해주세요.");
 		}
 
-		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), title, body);
+		ResultData<Integer> writeArticleRd = articleService.writeArticle(rq.getLoginedMemberId(), boardId, title, body);
 
 		int id = writeArticleRd.getData1();
 		
@@ -57,7 +54,7 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/list")
-	public String showList(HttpServletRequest req, Model model, int boardId) {
+	public String showList(Model model, int boardId) {
 		Board board = boardService.getBoardById(boardId);
 		
 		if ( board == null ) {
@@ -75,7 +72,7 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/detail")
-	public String showDetail(HttpServletRequest req, Model model, int id) {
+	public String showDetail(Model model, int id) {
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		model.addAttribute("article", article);
@@ -85,7 +82,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/getArticle")
 	@ResponseBody
-	public ResultData<Article> getArticle(HttpServletRequest req, int id) {
+	public ResultData<Article> getArticle(int id) {
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		if (article == null) {
@@ -97,7 +94,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doDelete")
 	@ResponseBody
-	public String doDelete(HttpServletRequest req, int id) {
+	public String doDelete(int id) {
 		if (rq.isLogined() == false) {
 			return rq.jsHistoryBack("로그인 후 이용해주세요.");
 		}
@@ -118,7 +115,7 @@ public class UsrArticleController {
 	}
 
 	@RequestMapping("/usr/article/modify")
-	public String showModify(HttpServletRequest req, Model model, int id) {
+	public String showModify(Model model, int id) {
 		Article article = articleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
 		if (article == null) {
@@ -138,7 +135,7 @@ public class UsrArticleController {
 
 	@RequestMapping("/usr/article/doModify")
 	@ResponseBody
-	public String doModify(HttpServletRequest req, int id, String title, String body) {
+	public String doModify(int id, String title, String body) {
 		if (rq.isLogined() == false) {
 			return rq.jsHistoryBack("로그인 후 이용해주세요.");
 		}

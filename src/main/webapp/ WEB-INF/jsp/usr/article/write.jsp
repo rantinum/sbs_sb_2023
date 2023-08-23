@@ -14,19 +14,41 @@
       </colgroup>
         <tbody>
           <tr>
+            <th>게시판</th>
+            <td>
+            <select name="boardId" class="select select-bordered w-full max-w-xs">
+              <option disabled selected>게시판을 선택해주세요.</option>
+              <option value="1">공지</option>
+              <option value="2">자유</option>
+            </select>
+            </td>
+            <!-- 
+            <td>
+            <label>
+              공지
+              <input type="radio" value="1" name="boardId" />
+            </label>
+            <label>
+              자유
+              <input type="radio" value="2" name="boardId"/>
+            </label>
+            </td>
+             -->
+          </tr>
+          <tr>
             <th>작성자</th>
             <td>${rq.loginedMember.nickname}</td>
           </tr>
           <tr>
             <th>제목</th>
             <td>
-              <input type="text" class="input input-bordered w-full max-w-xs" name="title" placeholder="제목"/>
+              <input required="required" type="text" class="input input-bordered w-full max-w-xs" name="title" placeholder="제목"/>
             </td>
           </tr>
           <tr>
             <th>내용</th>
             <td>
-              <textarea class="w-full textarea textarea-bordered" name="body" placeholder="내용"></textarea>
+              <textarea required="required" class="w-full textarea textarea-bordered" name="body" placeholder="내용"></textarea>
             </td>
           </tr>
           <tr>
