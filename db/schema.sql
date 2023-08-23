@@ -125,4 +125,13 @@ UPDATE article
 SET boardId = 1
 WHERE id IN (3);
 
-SELECT * FROM article;
+SELECT FROM * article;
+/*
+# 게시물 수 늘리기
+insert into article
+(
+    regDate, updateDate, memberId, boardId, title, `body`
+)
+select now(), now(), FLOOR(RAND() * 3) + 1, FLOOR(RAND() * 2) + 1, concat('제목_', rand()), CONCAT('내용_', RAND())
+from article;
+*/
