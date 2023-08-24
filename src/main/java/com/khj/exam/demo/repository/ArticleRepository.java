@@ -10,8 +10,9 @@ import com.khj.exam.demo.vo.Article;
 
 @Mapper
 public interface ArticleRepository {
-	public void writeArticle(@Param("memberId") int memberId,@Param("boardId")  int boardId, @Param("title") String title, @Param("body") String body);
-	
+	public void writeArticle(@Param("memberId") int memberId, @Param("boardId") int boardId,
+			@Param("title") String title, @Param("body") String body);
+
 	@Select("""
 			<script>
 				SELECT A.*,
@@ -30,7 +31,6 @@ public interface ArticleRepository {
 			""")
 	public List<Article> getForPrintArticles(@Param("boardId") int boardId, int limitStart, int limitTake);
 
-	
 	@Select("""
 			SELECT A.*,
 			M.nickname AS extra__writerName
@@ -40,10 +40,10 @@ public interface ArticleRepository {
 			WHERE A.id = #{id}
 			""")
 	public Article getForPrintArticle(@Param("id") int id);
-	
+
 	public void deleteArticle(@Param("id") int id);
 
-	public void modifyArticle(@Param("id")int id, @Param("title") String title, @Param("body") String body);
+	public void modifyArticle(@Param("id") int id, @Param("title") String title, @Param("body") String body);
 
 	public int getLastInsertId();
 
@@ -51,10 +51,27 @@ public interface ArticleRepository {
 			<script>
 				SELECT COUNT(*) AS cnt
 				FROM article AS A
-				<if test="board != 0">
+				<if test="boardId != 0">
 					WHERE A.boardId = #{boardId}
+				</if>
+				<if test="searchKeyword != ''">
+				  <choose>
+				    <when test="searchKeywordTypeCode == 'title'">
+				      AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+				    </when>
+				    <when test="searchKeywordTypeCode == 'body'">
+				      AND A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+				    </when>
+				    <otherwise>
+				    	AND (
+				    		A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+				    		OR
+				    		A.body LIKE CONCAT('%', #{searchKeyword}, '%')
+				    	)
+				    </otherwise>
+				  </choose>
 				</if>
 			</script>
 			""")
-	public int getArticlesCount(int boardId);
+	public int getArticlesCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
 }
